@@ -5,8 +5,12 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
 import mongoose from 'mongoose'
-import crypto from 'crypto';
 import router from "./routes";
+import 'dotenv/config'
+
+
+
+require('dotenv').config()
 
 const app = express();
 
@@ -18,16 +22,16 @@ app.use(compression())
 app.use(cookieParser())
 app.use(bodyParser.json())
 
-const mongo = "mongodb+srv://chester:chester123@cluster0.9g3fmci.mongodb.net/?retryWrites=true&w=majority"
-
 const server = http.createServer(app)
-const port = 8080;
+
+const mongo = process.env.MONGO_URL
+const port = process.env.PORT;
 
 server.listen(port, () =>{
     console.log(`server listening on http://localhost:${port}/`)
 })
 
-export const random = () => crypto.randomBytes(128).toString('base64');
+
 
 mongoose.Promise = Promise;
 mongoose.connect(mongo)
